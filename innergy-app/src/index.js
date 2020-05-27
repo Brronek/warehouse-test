@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { createStore } from 'redux';
-import warehouseImportReducer from './WarehouseImport/WarehouseImportReducer';
+import warehousesImportReducer from './WarehousesImport/WarehousesImportReducer';
 import { Provider } from 'react-redux';
 
 
-const store = createStore(warehouseImportReducer);
+const store = createStore(warehousesImportReducer);
 
 ReactDOM.render(
   <Provider store={store}>

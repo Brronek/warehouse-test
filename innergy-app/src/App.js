@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Warehouse from './Warehouse/Warehouse';
 import WarehousesTxt from './WarehousesTxt/WarehousesTxt';
-import WarehouseImport from './WarehouseImport/WarehouseImport';
+import WarehousesImport from './WarehousesImport/WarehousesImport';
 import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <div className="App container">
 
-        <WarehouseImport />
+        <WarehousesImport />
         {this.props.wrhs.map((warehouse) => (
           <Warehouse
             name={warehouse.name}
