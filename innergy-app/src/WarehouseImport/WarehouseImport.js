@@ -16,7 +16,8 @@ class WarehouseImport extends React.Component {
         '# Existing materials, restocked\n'+
         'Hdw Accuride CB0115-CASSRC - Locking Handle Kit - Black;CB0115-CASSRC;WH-C,13|WH-B,5\n'+
         'Veneer - Charter Industries - 3M Adhesive Backed - Cherry 10mm - Paper Back;3M-Cherry-10mm;WH-A,10|WH-B,1\n'+
-        'Veneer - Cherry Rotary 1 FSC;COM-123823;WH-C,10 MDF, CARB2, 1 1/8";COM-101734;WH-C,8';
+        'Veneer - Cherry Rotary 1 FSC;COM-123823;WH-C,10\n' +
+        'MDF, CARB2, 1 1/8";COM-101734;WH-C,8';
 
         this.state = { csv: csv };
 
@@ -29,13 +30,14 @@ class WarehouseImport extends React.Component {
     render() {
         return (
 
-            <div className="WarehouseImport">
-
-                <textarea onChange={this.csvChanged}>
+            <div className="WarehouseImport col-sm">
+                <div class="form-group">
+                <label for="csv">CSV</label>
+                <textarea id="csv" class="form-control" rows="20" onChange={this.csvChanged}>
                     {this.state.csv}
                 </textarea>
-                <button onClick={() => this.props.onImportClicked(this.state.csv)}>Import</button>
-
+                <button class="btn btn-primary" onClick={() => this.props.onImportClicked(this.state.csv)}>Import</button>
+                </div>
             </div>
         );
     }
@@ -46,7 +48,7 @@ class WarehouseImport extends React.Component {
 
 const mapStateProps = state => {
     return {
-        csv: state.warehouse.csv
+        csv: state.csv
     };
 };
 

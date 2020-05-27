@@ -2,17 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import warehouseImportReducer from './WarehouseImport/WarehouseImportReducer';
-import appReducer from './AppReducer';
 import { Provider } from 'react-redux';
 
-const rootReducer = combineReducers({
-   warehouse: warehouseImportReducer,
-   app: appReducer
-});
 
-const store = createStore(rootReducer);
+const store = createStore(warehouseImportReducer);
 
 ReactDOM.render(
   <Provider store={store}>

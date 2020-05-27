@@ -1,7 +1,9 @@
 import * as actionTypes from '../store/actons';
 
 const initialState = {
-    warehouses: []
+    csv: '',
+    warehouses: [],
+    warehousesTxt : ''
 };
 
 
@@ -14,11 +16,18 @@ const warehouseImportReducer = (state = initialState, action) => {
 
         const finalModel = buildFinalModel(processedItems);
 
-        console.log(finalModel);
+        //console.log(finalModel);
+
+        sort(finalModel);
+
+        const txt =  toTxt(finalModel);
+        
+        console.log(txt);
 
         return {
             ...state,
-            warehouses: finalModel
+            warehouses: finalModel,
+            warehousesTxt:txt
         };
 
     }
@@ -103,6 +112,8 @@ const buildFinalModel = warehouseItems => {
                     items: []
                 };
 
+                warehouses.push(warehouse);
+
             }
 
             // is there an item already in warehouse?
@@ -110,6 +121,7 @@ const buildFinalModel = warehouseItems => {
 
             if (!item) {
                 item = {
+                    id: warehouseItem.id,
                     name: warehouseItem.name,
                     total: 0
                 };
@@ -117,7 +129,7 @@ const buildFinalModel = warehouseItems => {
             }
 
             // update totals
-            item.total += warehouseItem.total;
+            item.total += warehousesValue.total;
             warehouse.total += item.total;
 
         });
@@ -126,5 +138,47 @@ const buildFinalModel = warehouseItems => {
 
     return warehouses;
 };
+
+const sort = (warehouses) => {
+
+    // sort warehouses by total and then by name
+    warehouses.sort((w1, w2) => {
+        if(w1.total !== w2.total){
+            // totals are different. use total to sort
+            return compareDsc(w1.total, w2.total);
+        }
+
+        // totals are the same, use name to sort
+        return compareDsc(w1.name, w2.name);
+    });
+
+    // now sort items
+    warehouses.forEach(warehouse => warehouse.items.sort((i1, i2) => compare(i1.id, i2.id)));
+
+
+};
+
+const compare = (a, b) => (a > b ? 1 : -1);
+const compareDsc = (a, b) => (a > b ? -1 : 1);
+
+const toTxt = (warehouses) => {
+
+    // use array.join for better performance
+    const txtArr = [];
+
+    warehouses.forEach(warehouse => {
+        txtArr.push(warehouse.name + ' (total ' + warehouse.total + ')');
+
+        warehouse.items.forEach(item => {
+            txtArr.push(item.name + ': ' + item.total);
+        });
+
+        // empty line
+        txtArr.push("");
+    });
+
+    return txtArr.join("\n");
+};
+
 
 export default warehouseImportReducer;
